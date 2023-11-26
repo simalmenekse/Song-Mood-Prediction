@@ -1,0 +1,5 @@
+*.pyc
+myconfig.py
+config.pkl
+.pid
+playlist.m3u

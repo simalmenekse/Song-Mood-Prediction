@@ -1,0 +1,79 @@
+Title - TEXT - title of the song
+Artist - TEXT - name of the artist
+FilePath - TEXT - The file path of the physical song on your system. Not sure if we want to supplement this with the hash as well, or replace it entirely
+
+Beat_Average - REAL - average length of a beat in seconds. Essentially the same thing as tempo (which is in beats/min)
+
+Beat_Deviation - REAL - standard deviation of beat length. Very low, and we will have a very strong consistent beat, Very high and we will likely have a song that changes tempo, somewhere in the middle and we will basically have a bad drummer who isn't keeping good time
+
+Bars_Average - REAL - average length of a bar (measure) in seconds. Relevant to time signature. 
+
+Bars_Deviation - REAL - In conjunction with beat deviation, a large SD here but a small beat SD probably means that time signature changes 
+
+Danceability - REAL - Number between 0 and 1. One of the features I think we'd like to avoid using if possible 
+
+Duration - REAL - Length of the song in seconds
+
+End_of_fade_in - REAL - theoretically the number of seconds before the intro of a song ends
+
+Energy - REAL - Number between 0 and 1. One of the features I think we'd like to avoid using if possible
+
+Key - INT - Number from 0 to 11 representing an estimation of the song's key. 0 = C, 1 = C#, etc.
+
+Key_Confidence - REAL - Between 0 and 1. How certain we can be that the key is correct
+
+Liveness - REAL - Number between 0 and 1. One of the features I think we'd like to avoid using if possible
+
+Loudness - REAL - Negative number. One of the features I think we'd like to avoid using if possible
+
+Mode - INT - 0 or 1. Represents whether the key is Major or Minor. I'm not sure which is actually which
+
+Mode_Confidence - REAL - confidence of Mode guess 
+
+Offset_Seconds - INT - It seems this is 0 for every song I've seen. Not sure what it's supposed to represent
+
+Sections_Average - REAL - It attempts to separate the song into relatively similar sections. They represent rough approximations of song segments (intro, verse, chorus, bridge, solo, etc) I see a lot of potential information here. See below for more thoughts  
+
+Sections_Deviation - REAL - measure of the consistency of the length of sections
+
+Sections_Count - INT - Count of the total number of sections in a song
+
+Speechiness - REAL - Number between 0 and 1. One of the features I think we'd like to avoid using if possible. Rap music scores high, instrumental scores low
+
+Start_of_fade_out - REAL - number in seconds representing where the songs begins to end
+
+Tatums_Average - REAL - another way to divide the song up into pieces. These are very small (similar size to beats and segments). I haven't exactly made sense of how they're broken up, but they seem to be another way to evaluate rhythm. It may be useful to look at these in comparison to beats/tempo. I think a tatums/beats ratio may tell us something about the nature of the rhythm (syncopation, complexity, etc) 
+
+Tatums_Deviation - REAL - consistency of the duration of tatums
+
+Tatums_Count - INT - Total number of tatums in a song
+
+Tempo - REAL - BPM
+
+Tempo_Confidence - REAL - Number between 0 and 1, represents the confidence of the beat. I suspect that a low confidence here will correlate to a high beat SD, meaning that the beat is inconsistent and hard to nail down 
+
+Time_Signature - INT - Number of beats per bar (measure) 
+
+Time_Signature_Confidence - REAL - Number between 0 and 1, representing confidence of Time Signature. Again, I suspect low confidence will correlate to high SD in beat and/or bar
+
+
+################
+
+Everything below here utilizes the "segments" feature, which breaks the song into individual notes and provides data for each note. 
+
+Average - REAL - The average value across every note in the song of this element
+Deviation - REAL - The SD of every value of this element across every note in the song
+Differential - REAL - For this one, I first take the absolute value of the difference from one note to the next and average them all. For example, if we have three consecutive notes with "loudness" values of 1, 4 and 2 respectively, the differences would be 3 and -2, their absolute values would be 3 and 2, and the average of these would be 2.5 
+
+################
+
+LoudnessMax and LoudnessStart - These are both measures of how loud a note is. I think the reason for two different values is to account for a note that increases in volume.
+LoudnessMaxTime - I think this is a measure of how long a note is sustained, or something along those lines
+
+Timbres 1-12 - Each segment has twelve Timbre values. I believe the first one is loudness (so it and the previous "loudness" related features are actually redundant. The others represent measurements of different qualities of a note. Apparently, they decrease in importance, meaning two notes with the same value at timbre[0] or timbre[1] are more likely to sound similar than if they have the same value at timbre[10] or timbre[11].
+
+Pitches 1-12 - Correspond to musical notes in order, starting with [0] = C, [1] = C# to [11] = B.  The average and deviation probably don't tell us a lot. Differential will give an idea of how much notes are repeated. I doubt this is very meaningful, but it's in there.
+The more relevant thing here is the ratios. These are measures of how frequently each note appears in the song. I suspect this is actually how EchoNest identifies key. There are two ratios for each pitch: 
+a - counts how many times the pitch has a value of 1.0
+b - counts mow many times the pitch has a value over .5
+Including both accomplishes a fuzzy logic type goal of accounting for less prominent notes, but putting extra emphasis on strong notes
