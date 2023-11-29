@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 
+import subprocess
+
+#adding ffmpeg
+import os
+os.environ['PATH'] += os.pathsep + 'C:\\Users\\shari\\AppData\\Local\\ffmpegio\\ffmpeg-downloader\\ffmpeg\\bin'
+
+from sklearn.metrics import DistanceMetric
+#sklearn.__version__ '0.24.2'
+#from sklearn.neighbors import _dist_metrics
+
+
 # import music analysis packages
 import librosa
 import pyAudioAnalysis as pyaudio
@@ -31,6 +42,7 @@ tkobj.directory = filedialog.askdirectory(title = "Select the folder containing 
 # path is the global variable for the folder chosen
 path = tkobj.directory
 tkobj.destroy()
+
 
 # initialize the progress bar
 tkobj2 = tkinter.Tk()
@@ -203,13 +215,27 @@ PARAMETERS eng_features: engineered features, nn_features: neural network featur
 RETURN final_preds: predictions combined from the stacking classifier and MLP model
 '''
 def load_models_and_predict(eng_features, nn_features):
+    #fixing mood_stacking_model path
+    #mood_stacking_model_file = '%\\application\\mood_stacking_model.sav'
     # use the stacking classifier
+    current_directory = os.getcwd()
+    print("Current Working Directory:", current_directory)
+    #loaded_stacker = pickle.load(open(mood_stacking_model_file, 'rb'))
+    
+    # Get the full path to the script's directory
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Define the relative path to the model file
+    #mood_stacking_model_file = os.path.join(script_directory, 'mood_stacking_model.sav')
+
+    # Load the model
+    #loaded_stacker = pickle.load(open(mood_stacking_model_file, 'rb'))
+    
     loaded_stacker = pickle.load(open('mood_stacking_model.sav', 'rb'))
     stacker_preds = loaded_stacker.predict(eng_features)
     # use the MLP classifier
     loaded_mlp = pickle.load(open('mood_mlp_model.sav', 'rb'))
     mlp_preds = loaded_mlp.predict(nn_features)
-    u
     # combine the predictions from both models to generate final predictions
     final_preds = []
     for i in range(len(stacker_preds)):
