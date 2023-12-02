@@ -215,22 +215,18 @@ RETURN final_preds: predictions combined from the stacking classifier and MLP mo
 '''
 def load_models_and_predict(eng_features, nn_features):
     #fixing mood_stacking_model path
-    #mood_stacking_model_file = '%\\application\\mood_stacking_model.sav'
-    # use the stacking classifier
     current_directory = os.getcwd()
     print("Current Working Directory:", current_directory)
-    #loaded_stacker = pickle.load(open(mood_stacking_model_file, 'rb'))
-    
-    # Get the full path to the script's directory
+
     script_directory = os.path.dirname(os.path.abspath(__file__))
-
-    # Define the relative path to the model file
-    #mood_stacking_model_file = os.path.join(script_directory, 'mood_stacking_model.sav')
-
-    # Load the model
-    #loaded_stacker = pickle.load(open(mood_stacking_model_file, 'rb'))
+    os.chdir(script_directory)
     
-    loaded_stacker = pickle.load(open('mood_stacking_model.sav', 'rb'))
+    # Load the model with dtype specification
+    with open('mood_stacking_model.sav', 'rb') as file:
+        loaded_stacker = pickle.load(file, fix_imports=False, encoding='latin1')
+
+    
+    #loaded_stacker = pickle.load(open('mood_stacking_model.sav', 'rb'))
     stacker_preds = loaded_stacker.predict(eng_features)
     # use the MLP classifier
     loaded_mlp = pickle.load(open('mood_mlp_model.sav', 'rb'))
