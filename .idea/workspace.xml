@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="924fdf4e-a690-4c46-b57c-7e0091f1c86f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AppliedMachineLearning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AppliedMachineLearning.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/main_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/main_app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/mood_mlp_model.sav" beforeDir="false" afterPath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/mood_mlp_model.sav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/mood_stacking_model.sav" beforeDir="false" afterPath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/mood_stacking_model.sav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/training_model_main.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Main Project/ProjectMainCodeFiles/training_model_main.ipynb" afterDir="false" />
